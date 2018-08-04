@@ -1,0 +1,302 @@
+@charset 'utf-8';
+
+$main-clr: #3eb97b;
+
+/* 实色白字按钮-hover泛白（默认蓝色底） */
+@mixin btn-clr($width, $height, $display: inline-block, $btn-clr: $main-clr) {
+	line-height: $height;
+	display: $display;
+	width: $width;
+	height: $height;
+	text-align: center;
+	color: #fff;
+	border-radius: 2px;
+	background-color: $btn-clr;
+
+	@extend %hover-white;
+}
+
+
+
+
+%input-reset {
+	font-family: 'pingfang sc', stheiti, 'microsoft yahei', arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	border: none;
+	outline: none;
+	background-color: transparent;
+	appearance: none;
+}
+
+input[type='search'] {
+	&::-webkit-search-decoration,
+	&::-webkit-search-cancel-button,
+	&::-webkit-search-results-button,
+	&::-webkit-search-results-decoration {
+		display: none;
+	}
+}
+
+//翻转
+%reversal {
+	zoom: 1;
+	transform: rotate(180deg);
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+}
+
+//前面参数颜色, 后面参数透明度
+@mixin alpha($color, $alpha) {
+	$rgba: rgba($color, $alpha);
+	$ie-hex-str: ie-hex-str($rgba);
+	background-color: $rgba;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#{$ie-hex-str}, endColorstr=#{$ie-hex-str});
+
+	@at-root :root & {
+		filter: none;
+	}
+}
+
+//清除浮动
+%cf {
+	*zoom: 1;
+
+	&:before,
+	&:after {
+		display: table;
+		content: ' ';
+	}
+
+	&:after {
+		clear: both;
+	}
+}
+
+// text-accessibility
+
+%txt-hide {
+	font-size: 0;
+	line-height: 0;
+	// ie11 下会有文字无法显示的bug
+	// text-indent: -999em;
+}
+
+/* center */
+%xycenter {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+%ycenter {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+%xcenter {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+/* dotdotdot */
+@mixin dot($num: 1 ) {
+	@if ($num > 1) {
+		display: -webkit-box;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		-webkit-line-clamp: $num;
+		-webkit-box-orient: vertical;
+		word-wrap: break-word;
+	}@else {
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+}
+
+@mixin dot-line($num) {
+	-webkit-line-clamp: $num;
+}
+
+/* hover10%的白色 */
+%hover-white {
+	position: relative;
+
+	&:hover {
+		&:after {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			content: '';
+			background: hsla(0, 0%, 100%, 0.1);
+		}
+	}
+}
+
+/* 头像 */
+
+@mixin thumb($value1, $value2, $position: relative) {
+	position: $position;
+	display: block;
+	width: $value1;
+	height: $value1;
+	border-radius: 100%;
+
+	&:before {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: ($value1 - $value2*2);
+		height: ($value1 - $value2*2);
+		content: '';
+		border: $value2 solid rgba(0, 0, 0, 0.1);
+		border-radius: 100%;
+	}
+
+	img {
+		height: 100%\9;
+		vertical-align: top;
+		border-radius: 100%;
+	}
+}
+
+@mixin user-thumb-clr($value1, $value2) {
+	&:after {
+		font-size: 10px;
+		line-height: 13px;
+		position: absolute;
+		bottom: -3px;
+		left: 0;
+		display: block;
+		overflow: hidden;
+		width: 40px;
+		height: 14px;
+		content: $value2;
+		text-align: center;
+		color: #fff;
+		border-radius: 2px;
+		background-color: $value1;
+	}
+}
+
+/* 图片 */
+
+@mixin pic($value1, $value2) {
+	position: relative;
+	display: block;
+	overflow: hidden;
+	width: $value1;
+	height: $value2;
+
+	img {
+		position: absolute;
+		top: 0;
+		left: 0;
+		min-width: $value1;
+		min-height: $value2;
+		transform: translate(-50%, -50%);
+	}
+
+	@media screen and (min-width: 0) {
+		img {
+			top: 50% !important;
+			left: 50% !important;
+		}
+	}
+}
+
+@mixin pic2($value1, $value2) {
+	position: relative;
+	display: block;
+	overflow: hidden;
+	width: $value1;
+	height: $value2;
+}
+
+%scroll {
+	overflow-x: hidden;
+	overflow-y: auto;
+
+	&::-webkit-scrollbar-thumb {
+		border-radius: 4px;
+
+		@include alpha(#aaa, 0.4);
+
+		&:hover {
+			@include alpha(#aaa, 0.6);
+		}
+	}
+
+	&::-webkit-scrollbar {
+		width: 5px;
+	}
+}
+
+/* 白底橙色按钮-hover橙底白字 */
+@mixin btn-clr2($width, $height, $display: inline-block, $btn-clr: $main-clr) {
+	line-height: ($height - 2);
+	display: $display;
+	width: ($width - 2);
+	height: ($height - 2);
+	text-align: center;
+	color: $btn-clr;
+	border: 1px solid $btn-clr;
+	border-radius: ($height / 2);
+
+	&:hover {
+		color: #fff;
+		background-color: $btn-clr;
+	}
+}
+
+/* 箭头 */
+@mixin arr($direction, $width, $height, $border, $color: #e0e0e0, $display: inline-block ) {
+	display: $display;
+	width: $width;
+	height: $height;
+	border-width: $border $border 0 0;
+	border-style: solid;
+	border-color: $color;
+
+	@if ($direction == top) {
+		transform: rotate(-45deg);
+	}
+
+	@if ($direction == right) {
+		transform: rotate(45deg);
+	}
+
+	@if ($direction == bottom) {
+		transform: rotate(135deg);
+	}
+
+	@if ($direction == left) {
+		transform: rotate(-135deg);
+	}
+}
+
+/* play-btn */
+@mixin play($val) {
+	width: $val;
+	height: $val;
+	background: url(../img/play.png) 0 0 no-repeat;
+	background-size: $val auto;
+}
+
+@mixin play2($val) {
+	width: $val;
+	height: $val;
+	background: url(../img/play-hover.png) 0 0 no-repeat;
+	background-size: $val auto;
+}
+
+@mixin play-size($val) {
+	width: $val;
+	height: $val;
+	background-size: $val auto;
+}

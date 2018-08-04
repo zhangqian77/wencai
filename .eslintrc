@@ -1,0 +1,14 @@
+{
+	"env": {
+		"browser": true,
+		"node": true
+	},
+	"extends": "airbnb-base/legacy",
+	"rules": {
+		"no-tabs": "off",
+		"linebreak-style": "off",
+		"comma-dangle": "off",
+		"indent": ["warn", "tab"],
+		"eol-last": "off"
+	}
+}
